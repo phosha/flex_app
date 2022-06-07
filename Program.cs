@@ -20,5 +20,14 @@ namespace flex_app
 
             
         }
+
     }
+        static class Port_data
+        {
+            public static string[] List { get; set; }
+            public static string Port_set { get; set; }
+            public static string[] Baud { get; set; }
+        }
+
+        
 }

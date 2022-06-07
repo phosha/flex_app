@@ -7,62 +7,44 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.IO.Ports;
 namespace flex_app
 {
     public partial class Form1 : Form
     {
-        private bool is_show = false;
+        
+        private readonly string[] inputs = { "VGA", "HDMI", "DisplayPort", "DVI" };
+
         public Form1()
         {
             InitializeComponent();
-            button1.Click += Button1_Click;
+           
+
             string[] items = { "HELLO", "PEPE"};
-            listBox1.Items.AddRange(items);
-            listBox1.SetSelected(0,true);
-
+            comboBox1.Items.AddRange(inputs);
+            comboBox1.SelectedIndex = 0;
+           
         }
 
-        private void Button1_Click(object sender, EventArgs e)
-        {
-            label2.Text = listBox1.SelectedItem.ToString();
-            Console.WriteLine("HELP");
 
+        void get_ports() {
+
+            String[] ports = SerialPort.GetPortNames();
+            Port_data.List = ports;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+
+
+
+
+
+
+
+        private void cOMпортToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            is_show = !is_show;
-          /*  if (is_show)
-            {
-                label1.Text = "Миша лох";
-            }
-            else
-            {
-                label1.Text = "Тут написана истина";
-            }*/
-            var test = is_show ? "Да" : "Нет";
-            label1.Text = test;
-
-            Console.WriteLine("IN LISTBOX SELECTED {0}", listBox1.SelectedItem.ToString());
-
-        }
-
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var item = listBox1.SelectedItem.ToString();
-            Console.WriteLine("IT IS {0}!",item);
-            switch (item)
-            {
-                case "PEPE":
-                    Console.WriteLine("PEPE WAS CLICKED");
-                    break;
-                case "HELLO":
-                    Console.WriteLine("HELLO WAS CLICKED");
-                    break;
-                default:
-                    break;
-            }
+            get_ports();
+            Form2 form2 = new Form2();
+            form2.Show();
         }
     }
 }
