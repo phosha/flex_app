@@ -18,9 +18,10 @@ namespace flex_app
         public Form1()
         {
             InitializeComponent();
-           
 
-            string[] items = { "HELLO", "PEPE"};
+            Port_data.Baud = Port_data.Baud_list[3];
+            get_ports();
+            Serial_setup();
             comboBox1.Items.AddRange(inputs);
             comboBox1.SelectedIndex = 0;
            
@@ -33,11 +34,13 @@ namespace flex_app
             Port_data.List = ports;
         }
 
+        void Serial_setup() {
 
-
-
-
-
+            serialPort1.BaudRate = Int32.Parse(Port_data.Baud);
+            serialPort1.PortName = Port_data.List[0];
+            string sett_text = string.Format("Скорость {0}  Порт {1}", serialPort1.BaudRate.ToString(),serialPort1.PortName);
+            toolStripStatusLabel2.Text = sett_text;
+        }
 
 
         private void cOMпортToolStripMenuItem_Click(object sender, EventArgs e)
@@ -45,6 +48,25 @@ namespace flex_app
             get_ports();
             Form2 form2 = new Form2();
             form2.Show();
+           
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //Serial_setup();
+            if (serialPort1.IsOpen) serialPort1.Close();
+            else {
+                Serial_setup();
+                serialPort1.Open();
+                
+            }
+                
+            toolStripStatusLabel4.Text = serialPort1.IsOpen ? "Connected" : "Disconnected";
+
+
+        }
+
+
+
     }
 }

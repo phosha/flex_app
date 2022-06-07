@@ -26,7 +26,10 @@ namespace flex_app
         {
             public static string[] List { get; set; }
             public static string Port_set { get; set; }
-            public static string[] Baud { get; set; }
+
+            public static string[] Baud_list = { "9600", "19200", "38400", "115200" };
+
+            public static string Baud { get; set; }
         }
 
         
