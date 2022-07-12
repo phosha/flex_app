@@ -12,7 +12,7 @@ namespace flex_app
 {
     public partial class Form1 : Form
     {
-        
+
         private readonly string[] inputs = { "VGA", "HDMI", "DisplayPort", "DVI" };
 
         public Form1()
@@ -24,22 +24,32 @@ namespace flex_app
             Serial_setup();
             comboBox1.Items.AddRange(inputs);
             comboBox1.SelectedIndex = 0;
-           
+            toolStripStatusLabel4.Text = serialPort1.IsOpen ? "Connected" : "Disconnected";
         }
 
 
-        void get_ports() {
+        void get_ports()
+        {
 
             String[] ports = SerialPort.GetPortNames();
             Port_data.List = ports;
         }
 
-        void Serial_setup() {
+        void Serial_setup()
+        {
 
             serialPort1.BaudRate = Int32.Parse(Port_data.Baud);
-            serialPort1.PortName = Port_data.List[0];
-            string sett_text = string.Format("Скорость {0}  Порт {1}", serialPort1.BaudRate.ToString(),serialPort1.PortName);
-            toolStripStatusLabel2.Text = sett_text;
+            if (Port_data.List.Length == 0)
+            {
+                string sett_text = "Нет доступных портов";
+                toolStripStatusLabel2.Text = sett_text;
+            }
+            else
+            {
+                serialPort1.PortName = Port_data.List[0];
+                string sett_text = string.Format("Скорость {0}  Порт {1}", serialPort1.BaudRate.ToString(), serialPort1.PortName);
+                toolStripStatusLabel2.Text = sett_text;
+            }
         }
 
 
@@ -48,24 +58,28 @@ namespace flex_app
             get_ports();
             Form2 form2 = new Form2();
             form2.Show();
-           
+
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             //Serial_setup();
-            if (serialPort1.IsOpen) serialPort1.Close();
-            else {
-                Serial_setup();
-                serialPort1.Open();
-                
+            if (Port_data.List.Length != 0)
+            {
+                if (serialPort1.IsOpen) serialPort1.Close();
+                else
+                {
+                    Serial_setup();
+                    serialPort1.Open();
+
+                }
+
+
+
+
             }
-                
             toolStripStatusLabel4.Text = serialPort1.IsOpen ? "Connected" : "Disconnected";
-
-
         }
-
 
 
     }
